@@ -1,4 +1,4 @@
 class ShaimaController < ActionController::API
-    def show 
+    def show
     end 
 end
