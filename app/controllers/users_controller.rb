@@ -14,14 +14,11 @@ class UsersController < ApplicationController
       )
   if user
         UserMailer.registration_confirmation(user).deliver
-  
-  
         render json: {
           status: :created,
   
           user: user
         }
-  
       end
     end
 
@@ -37,6 +34,7 @@ class UsersController < ApplicationController
         user.email_confirmed = true
         user.confirm_token = nil
         user.save
+        render json: { status: 200 }
      #   redirect_to 'http://localhost:4200/login'
   
         #flash[:success] = "Welcome to the Sample App! Your email has been confirmed.Please sign in to continue."

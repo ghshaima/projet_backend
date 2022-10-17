@@ -1,5 +1,7 @@
 class User < ApplicationRecord
        before_create :confirmation_token
+       validates_presence_of :email
+       validates_uniqueness_of :email
   devise :database_authenticatable,
          :jwt_authenticatable,
          :registerable,
@@ -19,6 +21,4 @@ class User < ApplicationRecord
        self.confirm_token = nil
        save!(:validate => false)
      end
-
-
 end

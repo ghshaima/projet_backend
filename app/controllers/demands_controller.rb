@@ -2,6 +2,7 @@ class DemandsController < ApplicationController
 
     def index
         @demands = Demande.all
+        
       end
 
     
@@ -11,22 +12,30 @@ class DemandsController < ApplicationController
     
     def create
         @demande = Demande.new(demande_params)
-        @demande.save
-    end
+        
+        if @demande.save
     
-      def edit
-        @demande = Demande.find(params[:id])
-      end
-    
+          render json: @demande, statut: :created, location: @demande
+
+        else
+          render json: @demande.errors, statut: :unprocessable_entity
+        end
+    end  
       def update
         @demande = Demande.find(params[:id])
-    
-        @demande.update(demande_params)
+        if @demande.update(demande_params)
+        render json: @demande, statut: :updated
+        else 
+          render :edit
+        end
+      
       end
     
       def destroy
         @demande = demande.find(params[:id])
         @demande.destroy
+        render json: @demande, statut: :destroyed
+
       end
     
       private

@@ -1,35 +1,41 @@
 class SessionsController < ApplicationController
-    def create
-        user = User.find_by_email(params[:email].downcase)
-        if user && user.authenticate(params[:password])
-        if user.email_confirmed
-            sign_in user
-          redirect_back_or user
-        else
-          flash.now[:error] = 'Please activate your account by following the 
-          instructions in the account confirmation email you received to proceed'
-          render 'new'
-        end
-        else
-          flash.now[:error] = 'Invalid email/password combination' # Not quite right!
-          render 'new'
-        end
-    end
+ # include CurrentUserConcern
+ #create new users 
+ def create
 
-    #def create
-      #user = User
-       #       .find_by(email: params["user"]["email"])
-        #      .try(:authenticate, params["user"]["password"])
+  user = User.find_by(email: params[:email])
   
-      #if user
-       # session[:user_id] = user.id
-        #render json: {
-         # status: :created,
-          #logged_in: true,
-          #user: user
-        #}
-      #else
-       # render json: { status: 401 }
-      #end
-    #end
+  if user.present? && user.authenticate(params[:password])
+    
+    session[:user_id] = user.id
+    
+    render json: {
+      status: :created,
+      logged_in: true,
+      user: user
+    }, methods: [:user_image_url]
+
+  else
+    
+    render json: { status: 401 }
   end
+end
+
+  def logged_in
+    if @current_user
+      render json: {
+        logged_in: true,
+        user: @current_user
+      }, methods: [:user_image_url]
+    else
+      render json: {
+        logged_in: false
+      }
+    end
+  end
+
+  def logout
+    reset_session
+    render json: { status: 200, logged_out: true }
+  end
+end
