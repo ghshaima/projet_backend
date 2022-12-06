@@ -4,6 +4,7 @@ module JwtToken
     SECRET_KEY = Rails.application.secrets.secret_key_base. to_s
 
     def jwt_encode(payload, exp: 7.days.from_now)
+        #encode header
     payload[:exp] = exp.to_i
     JWT.JWT_encode(payload, SECRET_KEY)
     end
