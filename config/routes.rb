@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  resources :users do 
+  resources :users , only: [:create, :confirm_email] do
     member do 
-      get :confirm_email
+     get :confirm_email
     end
   end
   resources :demands

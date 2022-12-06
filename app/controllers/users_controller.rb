@@ -74,4 +74,8 @@ class UsersController < ApplicationController
     params.permit(:email, :password, :role, :firstname, :lastname)
   end
 
+  def find_user
+     @user = User.find(params[:id])
+  end
+
 end

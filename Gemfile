@@ -38,6 +38,9 @@ gem "rack-cors", :require => 'rack/cors'
 gem 'devise'
 gem 'devise-jwt'
 gem 'byebug', '~> 9.0', '>= 9.0.6'
+# Use JWT gem for token-based authentication
+gem 'jwt'
+
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
